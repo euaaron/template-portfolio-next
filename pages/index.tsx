@@ -1,9 +1,24 @@
+import { ApolloClient, createHttpLink, gql, InMemoryCache } from '@apollo/client'
+import { setContext } from '@apollo/client/link/context'
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
+import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 
-const Home: NextPage = () => {
+interface INode {
+  id: string,
+  name: string,
+  diskUsage: number,
+  homepageUrl: string,
+  url: string,
+  description: string,
+  createdAt: string,
+  updatedAt: string,
+}
+
+const Home: NextPage = ({ repositories }: any) => {
+  const repos: INode[] = repositories;
+  
   return (
     <div className={styles.container}>
       <Head>
@@ -17,56 +32,69 @@ const Home: NextPage = () => {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
+        <ul>
+          {repos.map((item: any) => (
+            <li key={item.id}>
+              <a href={`${item.url}`}>
+                {item.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+
         <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.tsx</code>
+          Get started by looking at
+          <code className={styles.code}><Link href="/about">pages/about.tsx</Link></code>
         </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
     </div>
   )
 }
 
-export default Home
+export default Home;
+
+export async function getStaticProps() {
+  const authLink = setContext((_, { headers }) => {
+    return {
+        headers: {
+              ...headers,
+              authorization: `Bearer ${process.env.GITHUB_API_TOKEN}` || "",
+          }
+      }
+  })
+
+  const httpLink = createHttpLink({
+      uri: process.env.GITHUB_API_URL || "",
+    });
+
+  const apolloClient = new ApolloClient({
+      link: authLink.concat(httpLink),
+      cache: new InMemoryCache(),
+  });
+  
+  const { data } = await apolloClient.query({
+    query: gql`
+      query getRepositories($last: Int = 100, $isFork: Boolean = false) {
+        viewer {
+          repositories(last: $last, isFork: $isFork) {
+            nodes {
+              id,
+              name,
+              diskUsage,
+              homepageUrl,
+              url,
+              description,
+              createdAt,
+              updatedAt,
+            }
+          }
+        }
+      }
+    `,
+  });
+  return {
+    props: {
+      repositories: await data.viewer.repositories.nodes,
+    }
+  }
+}
