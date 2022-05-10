@@ -57,6 +57,14 @@ a {
 
 * {
   box-sizing: border-box;
+  transition: color .3s ease, background-color .3s ease;
+}
+
+#pageContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
 `;

@@ -1,4 +1,5 @@
 import type { NextPage } from 'next';
+import Head from 'next/head';
 import Link from 'next/link';
 import { AboutContainer } from '../styles/About.styles';
 
@@ -6,6 +7,13 @@ const About: NextPage = () => {
 
   return (
     <AboutContainer>
+      <Head>
+        <title>Portfolio | About</title>
+        <meta
+          name="description"
+          content="Links úteis sobre Next.js"
+        />
+      </Head>
       <header>
         <Link href={'/'} >
           &larr; Back to home

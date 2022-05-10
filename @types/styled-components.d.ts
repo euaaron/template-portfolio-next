@@ -9,6 +9,8 @@ interface IPattern {
 
 declare module 'styled-components' {
   export interface DefaultTheme {
+    name: string;
+    type: 'light' | 'dark';
     colors: {
       primary: IPattern;
       secondary: IPattern;

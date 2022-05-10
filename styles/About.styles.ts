@@ -12,12 +12,8 @@ export const AboutContainer = styled.div`
     width: 100%;
     padding: 0 2rem;
     display: flex;
-    position: fixed;
-    top: 0;
-    left: 0;
     justify-content: space-between;
     align-items: center;
-    backdrop-filter: blur(4rem);
   }
 
   > div {
