@@ -43,8 +43,7 @@ const Home: NextPage = ({ repositories }: any) => {
         </ul>
 
         <p className={styles.description}>
-          Get started by looking at
-          <code className={styles.code}><Link href="/about">pages/about.tsx</Link></code>
+          Para começar, dê uma olhada em <Link href="/about">pages/about.tsx</Link>
         </p>
       </main>
     </div>
