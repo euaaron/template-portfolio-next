@@ -1,7 +1,12 @@
 {
-  "name": "portfolio",
+  "name": "template-portfolio-next",
+  "description": "A template for a portfolio site made with Next.js",
+  "repository": {
+    "type": "git",
+    "url": "git+"
+  },
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -24,5 +29,11 @@
     "eslint": "8.15.0",
     "eslint-config-next": "12.1.6",
     "typescript": "4.6.4"
-  }
+  },
+  "author": {
+    "name": "Aaron Carneiro",
+    "email": "github@aaroncarneiro.com",
+    "url": "https://aaroncarneiro.com"
+  },
+  "license": "MIT"
 }
