@@ -4,6 +4,7 @@ export const TopBarStyle = styled.nav`
   top: 0;
   left: 0;
   width: 100%;
+  height: 4rem;
   position: fixed;
   backdrop-filter: blur(2rem);
   display: flex;

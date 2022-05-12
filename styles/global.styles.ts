@@ -64,7 +64,8 @@ a {
   flex: 1;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: calc(100vh - 4rem);
+  margin-top: 4rem;
 }
 
 `;
