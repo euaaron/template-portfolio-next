@@ -3,7 +3,7 @@
   "description": "A template for a portfolio site made with Next.js",
   "repository": {
     "type": "git",
-    "url": "git+"
+    "url": "https://github.com/euaaron/template-portfolio-next.git"
   },
   "version": "0.1.0",
   "private": false,
